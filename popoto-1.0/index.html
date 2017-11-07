@@ -5,6 +5,27 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <title>Popoto Search</title>
     <link rel="stylesheet" href="css/popoto.min.css">
+    <style>
+        #popoto-graph:fullscreen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #popoto-graph:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #popoto-graph:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #popoto-graph:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body class="ppt-body">
 
@@ -52,7 +73,7 @@
 <script src="js/jquery-2.1.0.min.js" charset="utf-8"></script>
 
 <script src="js/d3.v3.min.js" charset="utf-8"></script>
-<script src="js/popoto.min.js" charset="utf-8"></script>
+<script src="js/popoto.js" charset="utf-8"></script>
 
 <script>
     /**
@@ -71,7 +92,7 @@
      *
      *  For example Base64 encoded value of "neo4j:password" is "bmVvNGo6cGFzc3dvcmQ="
      */
-    //popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:password");
+    popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:password");
 
     /**
      * Define the Label provider you need for your application.
@@ -86,7 +107,8 @@
     popoto.provider.nodeProviders = {
         "Person": {
             "returnAttributes": ["name", "born"],
-            "constraintAttribute": "name"
+            "constraintAttribute": "name",
+            "autoExpandRelations": true // if set to true Person nodes will be automatically expanded in graph
         },
         "Movie": {
             "returnAttributes": ["title", "released", "tagline"],
