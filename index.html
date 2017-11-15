@@ -90,12 +90,11 @@
      * Add this authorization property if your Neo4j server uses basic HTTP authentication.
      * The value of this property must be "Basic <payload>", where "payload" is a base64 encoded string of "username:password".
      *
-     * "btoa" is a JavaScript function that can be used to encode the user and password value in base64 but it is recommended to directly use the Base64 value.
+     * "btoa" is a JavaScript function that can be used to encode the user and password value in base64 but it is recommended to directly use the Base64 value. NOPE! security by obfuscation is bullshit!
      *
      *  For example Base64 encoded value of "neo4j:password" is "bmVvNGo6cGFzc3dvcmQ="
      */
     popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:adneom");
-    /* TODO USE ME popoto.rest.AUTHORIZATION = "Basic bmVvNGo6YWRuZW9t"; */
 
     /**
      * Define the Label provider you need for your application.
