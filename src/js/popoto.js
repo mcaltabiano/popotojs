@@ -605,7 +605,7 @@ popoto = function () {
     popoto.graph.containerId = "popoto-graph";
     popoto.graph.hasGraphChanged = true;
     // Defines the min and max level of zoom available in graph query builder.
-    popoto.graph.zoom = d3.behavior.zoom().scaleExtent([0.1, 10]);
+    popoto.graph.zoom = d3.zoom().scaleExtent([0.1, 10]);
     popoto.graph.WHEEL_ZOOM_ENABLED = true;
     popoto.graph.TOOL_TAXONOMY = "Show/hide taxonomy panel";
     popoto.graph.TOOL_CENTER = "Center view";
