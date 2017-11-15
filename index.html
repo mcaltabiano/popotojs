@@ -83,7 +83,8 @@
      *
      * For more information on Neo4J REST API the documentation is available here: http://neo4j.com/docs/stable/rest-api-cypher.html
      */
-    popoto.rest.CYPHER_URL = "http://localhost:7474/db/data/transaction/commit";
+    //popoto.rest.CYPHER_URL = "http://localhost:7474/db/data/transaction/commit";
+    popoto.rest.CYPHER_URL = "http://192.198.2.106:7474/db/data/transaction/commit";
 
     /**
      * Add this authorization property if your Neo4j server uses basic HTTP authentication.
@@ -93,7 +94,8 @@
      *
      *  For example Base64 encoded value of "neo4j:password" is "bmVvNGo6cGFzc3dvcmQ="
      */
-    popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:password");
+    popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:adneom");
+    /* TODO USE ME popoto.rest.AUTHORIZATION = "Basic bmVvNGo6YWRuZW9t"; */
 
     /**
      * Define the Label provider you need for your application.
@@ -105,17 +107,224 @@
      * These label provider configuration can be used to customize the node display in the graph.
      * See www.popotojs.com or example for more details on available configuration options.
      */
-    popoto.provider.nodeProviders = {
-        "Person": {
-            "returnAttributes": ["name", "born"],
-            "constraintAttribute": "name",
-            "autoExpandRelations": true // if set to true Person nodes will be automatically expanded in graph
-        },
-        "Movie": {
-            "returnAttributes": ["title", "released", "tagline"],
-            "constraintAttribute": "title"
-        }
-    };
+     popoto.provider.nodeProviders = {
+         "Client":{
+             returnAttributes:["Latitude", "Created", "Locality", "Adresse", "Turnover", "Longitude", "Id", "Name", "EmployeeNumber", "Active"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Team":{
+             returnAttributes:["Id", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Formation":{
+             returnAttributes:["level3", "source", "Description", "language", "level1", "level4", "level2", "Name", "Type", "Id"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Mission":{
+             returnAttributes:["Latitude", "Active", "Locality", "Longitude", "EmailBM", "Turnover", "Description", "Status", "Margin", "Name", "Adresse", "Id", "EndDate", "StartDate", "ClientSatisfaction"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "BusinessUnit":{
+             returnAttributes:["Id", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Industry":{
+             returnAttributes:["Id", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Project":{
+             returnAttributes:["EmailBM", "StartDate", "Adresse", "Status", "Description", "Id", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Skill":{
+             returnAttributes:["Check", "Id", "TimeToLevel4", "TimeToLevel2", "TimeToLevel3", "TimeToLevel1", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Task":{
+             returnAttributes:["Description", "Delivrable", "Completion", "Name", "ClientSatisfaction", "StartDate", "Id", "EndDate"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Consultant":{
+             returnAttributes:["Longitude", "Latitude", "Adresse", "StartDate", "Locality", "Active", "BirthDate", "Name", "Email", "Gender", "FirstName", "GSM", "Id", "LastName", "Seniority"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Group":{
+             returnAttributes:["Id", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+         "Category":{
+             returnAttributes:["Id", "Name"],
+             constraintAttribute:"Id",
+             "getTextValue": function (node) {
+                 var text;
+                 if (node.type === popoto.graph.node.NodeTypes.VALUE) {
+                     text = "" + node.attributes["Name"];
+                 } else {
+                     if (node.value === undefined) {
+                         text = node.label;
+                     } else {
+                         text = "" + node.value.attributes["Name"];
+                     }
+                 }
+                 // Text is truncated to avoid node overflow
+                 return text.substring(0, 12);
+             },
+         },
+     };
 
     /**
      * Here a listener is used to retrieve the total results count and update the page accordingly.
@@ -141,13 +350,13 @@
      * With INFO level all the executed cypher query can be seen in the navigator console.
      * Default is NONE
      */
-    //popoto.logger.LEVEL = popoto.logger.LogLevels.INFO;
+    popoto.logger.LEVEL = popoto.logger.LogLevels.INFO;
 
     /**
      * Start popoto.js generation.
      * The function requires the label to use as root element in the graph.
      */
-    popoto.start("Person");
+    popoto.start("Client");
 </script>
 </body>
 </html>
