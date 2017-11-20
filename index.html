@@ -76,12 +76,11 @@
 <script src="js/d3.v3.min.js" charset="utf-8"></script>
 <script src="src/js/popoto.js" charset="utf-8"></script>
 
-<script>
-    $.getScript("js/credentials.js");
+<script src="js/credentials.js" charset="utf-8"></script>
 
-    if (typeof credentials == "undefined" || !credentials.server || !credentials.username || !credentials.password) {
+<script>
+    if (!credentials || !credentials.server || !credentials.username || !credentials.password) {
       alert("credentials are not configured. Try copying /js/credentials_example.js to /js/credentials.js and adapting it.")
-      credentials = undefined;
     }
     /**
      * URL used to access Neo4j REST API to execute queries.
