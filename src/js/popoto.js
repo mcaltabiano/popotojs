@@ -1382,6 +1382,7 @@ popoto = function () {
         popoto.graph.node.updateData();
         popoto.graph.node.removeElements();
         popoto.graph.node.addNewElements();
+        popoto.graph.node.svgNodeElements = popoto.graph.svg.select("#" + popoto.graph.node.gID).selectAll("g");
         popoto.graph.node.updateElements();
     };
 
