@@ -163,13 +163,29 @@ popoto = function () {
 
     // REST ------------------------------------------------------------------------------------------------------------
     popoto.rest = {};
-
+    popoto.rest.postStartedListeners = [];
+    popoto.rest.postSuccessListeners = [];
+    popoto.rest.postFailedListeners = [];
     /**
      * Default REST URL used to call Neo4j server with cypher queries to execute.
      * This property should be updated to access to your own server.
      * @type {string}
      */
     popoto.rest.CYPHER_URL = "http://localhost:7474/db/data/transaction/commit";
+
+    /**
+    * Register a listener to the rest post events.
+    * This listener will be called on each rest post start, success or fail event.
+    */
+    popoto.rest.onPostStarted = function (listener) {
+        popoto.rest.postStartedListeners.push(listener);
+    };
+    popoto.rest.onPostSuccess = function (listener) {
+        popoto.rest.postSuccessListeners.push(listener);
+    };
+    popoto.rest.onPostFailed = function (listener) {
+        popoto.rest.postFailedListeners.push(listener);
+    };
 
     /**
      * Create JQuery ajax POST request to access Neo4j REST API.
@@ -181,11 +197,31 @@ popoto = function () {
         var strData = JSON.stringify(data);
         popoto.logger.info("REST POST:" + strData);
 
+        if (popoto.rest.postStartedListeners.length > 0) {
+            popoto.rest.postStartedListeners.forEach(function (listener) {
+                listener();
+            });
+        };
+
         return $.ajax({
             type: "POST",
             beforeSend: function (request) {
                 if (popoto.rest.AUTHORIZATION) {
                     request.setRequestHeader("Authorization", popoto.rest.AUTHORIZATION);
+                }
+            },
+            success: function (data) {
+                if (popoto.rest.postSuccessListeners.length > 0) {
+                    popoto.rest.postSuccessListeners.forEach(function (listener) {
+                        listener(data);
+                    });
+                }
+            },
+            error: function () {
+                if (popoto.rest.postFailedListeners.length > 0) {
+                    popoto.rest.postFailedListeners.forEach(function (listener) {
+                        listener();
+                    });
                 }
             },
             url: popoto.rest.CYPHER_URL,
