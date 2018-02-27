@@ -84,7 +84,6 @@ popoto = function () {
         var queryHTMLContainer = d3.select("#" + popoto.queryviewer.containerId);
         var cypherHTMLContainer = d3.select("#" + popoto.cypherviewer.containerId);
         var resultsHTMLContainer = d3.select("#" + popoto.result.containerId);
-        var spinnerHTMLContainer = d3.select("#" + popoto.spinner.containerId);
 
         if (graphHTMLContainer.empty()) {
             popoto.logger.debug("The page doesn't contain a container with ID = \"" + popoto.graph.containerId + "\" no graph area will be generated. This ID is defined in popoto.graph.containerId property.");
@@ -120,14 +119,6 @@ popoto = function () {
         } else {
             popoto.result.isActive = true;
         }
-
-        if (spinnerHTMLContainer.empty()) {
-            popoto.logger.debug("The page doesn't contain a container with ID = \"" + popoto.spinner.containerId + "\" no spinner will be generated. This ID is defined in popoto.spinner.containerId property.");
-            popoto.spinner.isActive = false;
-        } else {
-            popoto.spinner.isActive = true;
-        }
-
     };
 
     /**
@@ -189,7 +180,6 @@ popoto = function () {
     popoto.rest.post = function (data) {
         var strData = JSON.stringify(data);
         popoto.logger.info("REST POST:" + strData);
-        popoto.spinner.show();
 
         return $.ajax({
             type: "POST",
@@ -197,9 +187,6 @@ popoto = function () {
                 if (popoto.rest.AUTHORIZATION) {
                     request.setRequestHeader("Authorization", popoto.rest.AUTHORIZATION);
                 }
-            },
-            success: function (request) {
-                popoto.spinner.hide();
             },
             url: popoto.rest.CYPHER_URL,
             contentType: "application/json",
@@ -4731,23 +4718,6 @@ popoto = function () {
             }
 
         });
-
-    // SPINNER -----------------------------------------------------------------------------------------------------
-    popoto.spinner = {};
-    popoto.spinner.containerId = "popoto-spinner";
-    
-    popoto.spinner.hide = function () {
-        if (popoto.spinner.isActive) {
-            console.log("active");
-            $("#" + popoto.spinner.containerId).hide();
-        }
-    };
-
-    popoto.spinner.show = function () {
-        if (popoto.spinner.isActive) {
-            $("#" + popoto.spinner.containerId).show();
-        }
-    };
 
     return popoto;
 }();
