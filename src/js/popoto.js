@@ -1379,6 +1379,17 @@ popoto = function () {
     popoto.graph.node.internalLabels = {};
 
     /**
+    * Register a listener to the choosen node click.
+    * This particular event is useful to visualize the details of a selected node.
+    */
+
+    popoto.graph.node.chooseNodeClickListeners = [];
+
+    popoto.graph.node.onChooseNodeClick = function (listener) {
+        popoto.graph.node.chooseNodeClickListeners.push(listener);
+    };
+
+    /**
      * Create a normalized identifier from a node label.
      * Multiple calls with the same node label will generate different unique identifier.
      *
@@ -2180,6 +2191,13 @@ popoto = function () {
                     clickedNode.page = 1;
                     popoto.graph.node.expandNode(clickedNode);
                     popoto.graph.node.chooseWaiting = false;
+
+                    // Notify listeners
+                    if (popoto.graph.node.chooseNodeClickListeners.length > 0) {
+                    popoto.graph.node.chooseNodeClickListeners.forEach(function (listener) {
+                        listener(data, clickedNode);
+                    });
+                }
                 })
                 .fail(function (xhr, textStatus, errorThrown) {
                     popoto.graph.node.chooseWaiting = false;
